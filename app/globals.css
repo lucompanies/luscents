@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0b0a09;
+  color: #f3ece2;
+}
+
+::selection {
+  background: #c9a35d;
+  color: #0b0a09;
+}
+
+/* thin gold scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0a09;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #e4c98a, #9c7c3f);
+  border-radius: 8px;
+  border: 2px solid #0b0a09;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #e4c98a 0%, #c9a35d 45%, #9c7c3f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.shimmer-line {
+  background: linear-gradient(90deg, transparent, #c9a35d, transparent);
+}
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNuKSIvPjwvc3ZnPg==");
+}
+
+.gold-border {
+  border: 1px solid rgba(201, 163, 93, 0.35);
+}
+
+.card-glow {
+  box-shadow: 0 0 0 1px rgba(201, 163, 93, 0.18), 0 30px 80px -30px rgba(0, 0, 0, 0.8);
+}
+
+.input-field {
+  @apply w-full bg-transparent border border-gold/30 focus:border-gold text-parchment placeholder:text-parchment/40 px-4 py-3 rounded-sm outline-none transition-colors duration-300 text-sm tracking-wide;
+}
+
+.btn-gold {
+  @apply relative inline-flex items-center justify-center gap-2 bg-gold-gradient text-ink font-body font-semibold uppercase tracking-[0.2em] text-xs px-8 py-4 rounded-sm transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98] shadow-lift;
+}
+
+.btn-outline {
+  @apply relative inline-flex items-center justify-center gap-2 border border-gold/50 text-parchment font-body uppercase tracking-[0.2em] text-xs px-8 py-4 rounded-sm transition-all duration-300 hover:border-gold hover:bg-gold/10;
+}
