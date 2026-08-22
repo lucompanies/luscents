@@ -1,0 +1,55 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#0b0a09">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {{ content_for_header }}
+
+    <link rel="preload" href="{{ 'playfair-display-variable.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ 'archivo-variable.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+  </head>
+
+  {%- comment -%}
+    World assignment (§2): a product's own world is set by the
+    `lu.world` metafield ("cream" | "dark"); every other template falls
+    back to whatever the visitor last chose, persisted client-side by
+    world-switch.js, defaulting to cream. The switch on every page lets a
+    visitor cross over at any point.
+  {%- endcomment -%}
+  <body
+    class="world-cream"
+    data-world="cream"
+    data-default-world="cream"
+  >
+    <a class="visually-hidden skip-link" href="#MainContent">Skip to content</a>
+
+    {% section 'header' %}
+
+    <main id="MainContent">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+
+    <script src="{{ 'world-switch.js' | asset_url }}" defer="defer"></script>
+  </body>
+</html>

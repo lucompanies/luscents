@@ -1,0 +1,57 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer__inner">
+    <div class="site-footer__signup">
+      <p class="t-label">{{ section.settings.signup_heading | default: 'Stay close to the house' }}</p>
+      {%- form 'customer', id: 'FooterSignupForm' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label class="visually-hidden" for="FooterEmail">Email</label>
+        <input type="email" name="contact[email]" id="FooterEmail" placeholder="Email address" required>
+        <label class="visually-hidden" for="FooterPhone">Phone</label>
+        <input type="tel" name="contact[phone]" id="FooterPhone" placeholder="+92 300 0000000">
+        <button type="submit" class="t-label">Sign up</button>
+      {%- endform -%}
+    </div>
+
+    <nav class="site-footer__links t-small" aria-label="Footer">
+      <a href="/pages/faq">FAQ</a>
+      <a href="/pages/shipping-returns">Shipping &amp; Returns</a>
+      <a href="/pages/privacy">Privacy</a>
+      <a href="/pages/terms">Terms</a>
+    </nav>
+
+    <div class="site-footer__social t-small">
+      {%- if section.settings.instagram_url != blank -%}
+        <a href="{{ section.settings.instagram_url }}">Instagram</a>
+      {%- endif -%}
+      {%- if section.settings.whatsapp_url != blank -%}
+        <a href="{{ section.settings.whatsapp_url }}">WhatsApp</a>
+      {%- endif -%}
+    </div>
+
+    <p class="t-small site-footer__copyright">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. LU Group of Companies.</p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "signup_heading",
+      "label": "Signup heading",
+      "default": "Stay close to the house"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "whatsapp_url",
+      "label": "WhatsApp URL"
+    }
+  ]
+}
+{% endschema %}

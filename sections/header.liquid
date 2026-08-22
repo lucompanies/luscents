@@ -1,0 +1,41 @@
+<header class="site-header" role="banner">
+  <div class="site-header__inner">
+    <a class="site-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+      {%- comment -%} Wordmark supplied as brand asset — swap the placeholder below once uploaded to Files. {%- endcomment -%}
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 240 | image_tag: loading: 'eager', alt: shop.name }}
+      {%- else -%}
+        <span class="t-label site-header__wordmark">LU SCENTS</span>
+      {%- endif -%}
+    </a>
+
+    <nav class="site-header__nav t-label" aria-label="Primary">
+      <a href="{{ routes.all_products_collection_url }}">The Collection</a>
+      <a href="/pages/about">About</a>
+      <a href="/pages/how-to-wear">How to Wear</a>
+      <a href="/pages/contact">Contact</a>
+    </nav>
+
+    <div class="site-header__actions">
+      <button type="button" class="world-switch" data-world-switch aria-pressed="false">
+        <span data-world-switch-label>Enter Masc</span>
+      </button>
+      <a class="site-header__cart t-label" href="{{ routes.cart_url }}" data-cart-link>
+        Bag ({{ cart.item_count }})
+      </a>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo (wordmark)"
+    }
+  ]
+}
+{% endschema %}

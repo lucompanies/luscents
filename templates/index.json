@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "scaffold": {
+      "type": "scaffold-notice"
+    }
+  },
+  "order": ["scaffold"]
+}

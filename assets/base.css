@@ -1,0 +1,239 @@
+/* ==========================================================================
+   LU Scents — base tokens and type system
+   Two worlds share one spine: cream (BLOSSOM) and dark (MASC).
+   Everything below is a CSS custom property so a section's schema can
+   never need to touch a hex value.
+   ========================================================================== */
+
+/* ---- self-hosted type ---------------------------------------------------
+   Playfair Display (display, didone) — OFL, Google Fonts
+   Archivo (utility/labels)          — OFL, Google Fonts
+   Source Serif 4 (body)             — OFL, Google Fonts
+   All three are SIL Open Font License: free to self-host and embed.
+   Provisional pending confirmation of any fonts already licensed for LU
+   Group — swap the src paths below if a different family is supplied.
+   -------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'LU Display';
+  src: url('playfair-display-variable.woff2') format('woff2-variations'),
+       url('playfair-display-variable.woff2') format('woff2');
+  font-weight: 500 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LU Display';
+  src: url('playfair-display-italic-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LU Utility';
+  src: url('archivo-variable.woff2') format('woff2-variations'),
+       url('archivo-variable.woff2') format('woff2');
+  font-weight: 500 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LU Body';
+  src: url('source-serif-4-variable.woff2') format('woff2-variations'),
+       url('source-serif-4-variable.woff2') format('woff2');
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LU Body';
+  src: url('source-serif-4-italic-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ---- design tokens -------------------------------------------------------
+   Hex values sampled directly from the supplied carton renders and the
+   wordmark artwork (see README "Palette" for the sampling notes). The
+   gold is one value shared by both worlds, per brief: it is a hairline /
+   small-type colour only — never a fill.
+   -------------------------------------------------------------------------- */
+
+:root {
+  /* shared */
+  --gold: #b8925f;
+  --font-display: 'LU Display', Georgia, 'Times New Roman', serif;
+  --font-utility: 'LU Utility', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'LU Body', Georgia, 'Times New Roman', serif;
+
+  /* type scale — fluid, capped, so it never over-grows on large screens */
+  --step-display: clamp(2.75rem, 2rem + 3vw, 5.5rem);
+  --step-h1: clamp(2rem, 1.6rem + 1.6vw, 3.25rem);
+  --step-h2: clamp(1.5rem, 1.3rem + 0.8vw, 2.125rem);
+  --step-label: 0.75rem;
+  --step-body: 1.0625rem;
+  --step-small: 0.875rem;
+
+  --tracking-label: 0.14em;
+  --tracking-display: -0.01em;
+
+  --measure: 62ch;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --space-6: 6.5rem;
+  --space-7: 10rem;
+
+  --radius-hairline: 0;
+  --border-hairline: 1px;
+
+  --duration-fade: 600ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---- cream world (BLOSSOM) -------------------------------------------- */
+.world-cream,
+[data-world='cream'] {
+  --bg: #f1e9de;
+  --surface: #e8ded0;
+  --surface-raised: #ffffff;
+  --ink: #211a14;
+  --ink-muted: #6b5f52;
+  --border: #d8cbb8;
+  --gold: #b8925f;
+  --focus-ring: #211a14;
+}
+
+/* ---- dark world (MASC) -------------------------------------------------- */
+.world-dark,
+[data-world='dark'] {
+  --bg: #0b0a09;
+  --surface: #1c1917;
+  --surface-raised: #242020;
+  --ink: #ecdfd4;
+  --ink-muted: #a89c8d;
+  --border: #322c27;
+  --gold: #c9a876;
+  --focus-ring: #ecdfd4;
+}
+
+/* ---- reset (minimal) ---------------------------------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color var(--duration-fade) var(--ease-standard),
+              color var(--duration-fade) var(--ease-standard);
+}
+
+img, svg, video { max-width: 100%; display: block; }
+
+a { color: inherit; }
+
+/* ---- type roles ---------------------------------------------------------- */
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-display);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.02;
+  margin: 0;
+}
+
+.t-h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-h1);
+  line-height: 1.08;
+  margin: 0;
+}
+
+.t-h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-h2);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.t-label {
+  font-family: var(--font-utility);
+  font-weight: 600;
+  font-size: var(--step-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.t-body {
+  font-family: var(--font-body);
+  font-size: var(--step-body);
+  max-width: var(--measure);
+  margin: 0;
+}
+
+.t-small {
+  font-family: var(--font-utility);
+  font-size: var(--step-small);
+  letter-spacing: 0.02em;
+}
+
+.rule-gold {
+  border: none;
+  border-top: var(--border-hairline) solid var(--gold);
+  margin: var(--space-3) 0;
+}
+
+/* ---- focus & motion ------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- world switch (persistent, quiet) ------------------------------------ */
+.world-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-utility);
+  font-size: var(--step-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  background: transparent;
+  border: var(--border-hairline) solid var(--gold);
+  color: var(--ink);
+  padding: 0.5em 0.9em;
+  cursor: pointer;
+}
+
+.world-switch:hover { border-color: var(--ink); }
