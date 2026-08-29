@@ -23,8 +23,8 @@
 
     {{ content_for_header }}
 
-    <link rel="preload" href="{{ 'playfair-display-variable.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ 'archivo-variable.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+    {{ 'playfair-display-variable.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {{ 'archivo-variable.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
   </head>
 
@@ -35,10 +35,17 @@
     world-switch.js, defaulting to cream. The switch on every page lets a
     visitor cross over at any point.
   {%- endcomment -%}
+  {%- liquid
+    assign body_world = 'cream'
+    if template.name == 'product' and product.metafields.lu.world.value != blank
+      assign body_world = product.metafields.lu.world.value
+    endif
+  -%}
   <body
-    class="world-cream"
-    data-world="cream"
+    class="world-{{ body_world }}"
+    data-world="{{ body_world }}"
     data-default-world="cream"
+    {%- if template.name == 'product' %} data-force-world="{{ body_world }}"{% endif %}
   >
     <a class="visually-hidden skip-link" href="#MainContent">Skip to content</a>
 
@@ -51,5 +58,9 @@
     {% section 'footer' %}
 
     <script src="{{ 'world-switch.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'scroll-fade.js' | asset_url }}" defer="defer"></script>
+    {%- if template.name == 'product' -%}
+      <script src="{{ 'product-gallery.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
   </body>
 </html>

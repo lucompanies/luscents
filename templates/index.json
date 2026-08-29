@@ -1,8 +1,24 @@
 {
   "sections": {
-    "scaffold": {
-      "type": "scaffold-notice"
+    "world-split": {
+      "type": "world-split",
+      "settings": {}
+    },
+    "brand-story": {
+      "type": "brand-story",
+      "settings": {
+        "eyebrow": "The house",
+        "heading": "Two fragrances, one house"
+      }
+    },
+    "product-intro": {
+      "type": "product-intro",
+      "blocks": {
+        "cream": { "type": "product", "settings": {} },
+        "dark": { "type": "product", "settings": {} }
+      },
+      "block_order": ["cream", "dark"]
     }
   },
-  "order": ["scaffold"]
+  "order": ["world-split", "brand-story", "product-intro"]
 }

@@ -1,0 +1,30 @@
+{%- doc -%}
+  Honest four-step sillage/longevity scale (§4). Values come from the
+  manufacturer via metafields — never invented. Blank renders as
+  "Pending", not a guessed midpoint.
+  @param product {product}
+{%- enddoc -%}
+{%- liquid
+  assign sillage = product.metafields.lu.sillage.value
+  assign longevity = product.metafields.lu.longevity.value
+-%}
+<div class="scale-indicator">
+  <div class="scale-indicator__row">
+    <span class="t-label">Sillage</span>
+    <span class="scale-indicator__dots" aria-hidden="true">
+      {%- for i in (1..4) -%}
+        <span class="scale-indicator__dot{% if sillage and i <= sillage %} is-filled{% endif %}"></span>
+      {%- endfor -%}
+    </span>
+    <span class="t-small">{% if sillage %}{{ sillage }} / 4{% else %}Pending{% endif %}</span>
+  </div>
+  <div class="scale-indicator__row">
+    <span class="t-label">Longevity</span>
+    <span class="scale-indicator__dots" aria-hidden="true">
+      {%- for i in (1..4) -%}
+        <span class="scale-indicator__dot{% if longevity and i <= longevity %} is-filled{% endif %}"></span>
+      {%- endfor -%}
+    </span>
+    <span class="t-small">{% if longevity %}{{ longevity }} / 4{% else %}Pending{% endif %}</span>
+  </div>
+</div>

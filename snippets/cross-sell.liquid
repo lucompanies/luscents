@@ -1,0 +1,24 @@
+{%- doc -%}
+  "Its counterpart" — the other SKU, framed as a pair (§4). Two SKUs
+  means every PDP visit is a chance to sell the set; no discount or
+  bundle price is implied unless a real bundle product exists.
+  @param product {product}
+  @param counterpart {product}
+{%- enddoc -%}
+{%- if counterpart != blank -%}
+  <div class="cross-sell">
+    <a class="cross-sell__media fade-in-on-scroll" href="{{ counterpart.url }}">
+      {{
+        counterpart.featured_image
+        | image_url: width: 900
+        | image_tag: loading: 'lazy', sizes: '(min-width: 780px) 45vw, 92vw', widths: '480,720,900', alt: counterpart.featured_image.alt | default: counterpart.title
+      }}
+    </a>
+    <div class="cross-sell__copy">
+      <span class="t-label cross-sell__eyebrow">Its counterpart</span>
+      <h2 class="t-h2">{{ counterpart.title }}</h2>
+      <p class="t-body">Gifted together, worn apart — {{ product.title }} and {{ counterpart.title }} make the set.</p>
+      <a class="cross-sell__link" href="{{ counterpart.url }}">Shop {{ counterpart.title }} &rarr;</a>
+    </div>
+  </div>
+{%- endif -%}

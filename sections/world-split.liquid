@@ -1,0 +1,162 @@
+{%- comment -%}
+  The homepage opens here: a full-viewport vertical split, cream on one
+  side, near-black on the other. This is the one place the brief asks us
+  to spend boldness (§2) — the reveal on load is the site's only
+  orchestrated animation; everything after this section is quiet.
+{%- endcomment -%}
+
+{%- liquid
+  assign cream_product = section.settings.cream_product
+  assign dark_product = section.settings.dark_product
+
+  assign cream_image = section.settings.cream_image
+  if cream_image == blank and cream_product != blank
+    assign cream_image = cream_product.featured_image
+  endif
+
+  assign dark_image = section.settings.dark_image
+  if dark_image == blank and dark_product != blank
+    assign dark_image = dark_product.featured_image
+  endif
+-%}
+
+<section class="world-split" data-world-split aria-label="Choose your world">
+  <a
+    class="world-split__half world-split__half--cream"
+    href="{{ cream_product.url | default: '#' }}"
+    style="animation-delay: 0ms;"
+  >
+    <span class="world-split__media">
+      {%- if cream_image != blank -%}
+        {{
+          cream_image
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            sizes: '50vw',
+            widths: '480,768,1200',
+            alt: cream_image.alt | default: section.settings.cream_heading
+        }}
+      {%- endif -%}
+    </span>
+    <span class="world-split__scrim"></span>
+    <span class="world-split__content">
+      <span class="t-label world-split__eyebrow">{{ section.settings.cream_eyebrow | default: 'Blossom for her' }}</span>
+      <span class="t-display world-split__name">{{ section.settings.cream_heading | default: 'Blossom' }}</span>
+      <span class="t-label world-split__cta">{{ section.settings.cream_cta | default: 'Discover' }} &rarr;</span>
+    </span>
+  </a>
+
+  <div class="world-split__seam" aria-hidden="true">
+    <svg viewBox="0 0 32 40" class="world-split__mark">
+      <path d="M16 4c-4 3-7 6-7 11 0 4 3 7 7 8 4-1 7-4 7-8 0-5-3-8-7-11Z" fill="none" stroke="currentColor" stroke-width="1"/>
+      <path d="M16 23v13" fill="none" stroke="currentColor" stroke-width="1"/>
+      <path d="M16 27c-2-2-5-2-6 0 1 2 4 3 6 1Z" fill="none" stroke="currentColor" stroke-width="1"/>
+      <path d="M16 27c2-2 5-2 6 0-1 2-4 3-6 1Z" fill="none" stroke="currentColor" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <a
+    class="world-split__half world-split__half--dark"
+    href="{{ dark_product.url | default: '#' }}"
+    style="animation-delay: 120ms;"
+  >
+    <span class="world-split__media">
+      {%- if dark_image != blank -%}
+        {{
+          dark_image
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'eager',
+            sizes: '50vw',
+            widths: '480,768,1200',
+            alt: dark_image.alt | default: section.settings.dark_heading
+        }}
+      {%- endif -%}
+    </span>
+    <span class="world-split__scrim"></span>
+    <span class="world-split__content">
+      <span class="t-label world-split__eyebrow">{{ section.settings.dark_eyebrow | default: 'Masc for him' }}</span>
+      <span class="t-display world-split__name">{{ section.settings.dark_heading | default: 'Masc' }}</span>
+      <span class="t-label world-split__cta">{{ section.settings.dark_cta | default: 'Discover' }} &rarr;</span>
+    </span>
+  </a>
+</section>
+
+{% schema %}
+{
+  "name": "World split",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Cream side — Blossom"
+    },
+    {
+      "type": "product",
+      "id": "cream_product",
+      "label": "Product"
+    },
+    {
+      "type": "image_picker",
+      "id": "cream_image",
+      "label": "Image (defaults to product image)"
+    },
+    {
+      "type": "text",
+      "id": "cream_eyebrow",
+      "label": "Eyebrow",
+      "default": "Blossom for her"
+    },
+    {
+      "type": "text",
+      "id": "cream_heading",
+      "label": "Heading",
+      "default": "Blossom"
+    },
+    {
+      "type": "text",
+      "id": "cream_cta",
+      "label": "CTA label",
+      "default": "Discover"
+    },
+    {
+      "type": "header",
+      "content": "Dark side — Masc"
+    },
+    {
+      "type": "product",
+      "id": "dark_product",
+      "label": "Product"
+    },
+    {
+      "type": "image_picker",
+      "id": "dark_image",
+      "label": "Image (defaults to product image)"
+    },
+    {
+      "type": "text",
+      "id": "dark_eyebrow",
+      "label": "Eyebrow",
+      "default": "Masc for him"
+    },
+    {
+      "type": "text",
+      "id": "dark_heading",
+      "label": "Heading",
+      "default": "Masc"
+    },
+    {
+      "type": "text",
+      "id": "dark_cta",
+      "label": "CTA label",
+      "default": "Discover"
+    }
+  ],
+  "presets": [
+    {
+      "name": "World split"
+    }
+  ]
+}
+{% endschema %}

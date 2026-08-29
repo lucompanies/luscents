@@ -1,0 +1,153 @@
+{%- comment -%}
+  The money page (§4). Structure, in order: gallery, name/format/size/
+  price, scent statement, note pyramid, intensity/longevity, buy block,
+  trust row, ingredient panel, how to wear, shipping summary, cross-sell.
+{%- endcomment -%}
+
+{%- liquid
+  assign world = product.metafields.lu.world.value | default: 'cream'
+  assign concentration = product.metafields.lu.concentration.value | default: 'Eau de Parfum'
+  assign inci = product.metafields.lu.ingredients_inci.value
+  assign allergens = product.metafields.lu.allergen_declaration.value
+  assign batch_note = product.metafields.lu.batch_note.value
+  assign variant = product.selected_or_first_available_variant
+  assign counterpart = section.settings.counterpart_product
+-%}
+
+<section class="product" data-world="{{ world }}" data-section-id="{{ section.id }}">
+  {% render 'product-gallery', product: product %}
+
+  <div class="product__details">
+    <p class="t-label product__concentration">{{ concentration }}</p>
+    <h1 class="t-h1 product__title">{{ product.title }}</h1>
+    {%- if variant.title != 'Default Title' -%}
+      <p class="t-label product__size">{{ variant.title }}</p>
+    {%- endif -%}
+
+    <p class="product__price">
+      {{ product.price | money }}
+      {%- if product.compare_at_price > product.price -%}
+        <s class="t-small">{{ product.compare_at_price | money }}</s>
+      {%- endif -%}
+    </p>
+
+    {%- if product.description != blank -%}
+      <div class="t-body product__statement">{{ product.description }}</div>
+    {%- endif -%}
+
+    {% render 'note-pyramid', product: product %}
+    {% render 'scale-indicator', product: product %}
+
+    {%- form 'product', product, id: 'ProductForm', class: 'product-form' -%}
+      <input type="hidden" name="id" value="{{ variant.id }}">
+      <label class="visually-hidden" for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
+      <input
+        type="number"
+        id="Quantity-{{ section.id }}"
+        class="product-form__quantity"
+        name="quantity"
+        value="1"
+        min="1"
+        inputmode="numeric"
+      >
+      <button
+        type="submit"
+        class="product-form__submit"
+        {% unless variant.available %}disabled{% endunless %}
+      >
+        {%- if variant.available -%}
+          {{ 'products.product.add_to_cart' | t }}
+        {%- else -%}
+          {{ 'products.product.sold_out' | t }}
+        {%- endif -%}
+      </button>
+    {%- endform -%}
+
+    <p class="t-label product__cod">{{ 'products.product.cash_on_delivery' | t }}</p>
+
+    {% render 'trust-row' %}
+
+    {%- if inci != blank or allergens != blank -%}
+      <details class="product__accordion">
+        <summary>Ingredients</summary>
+        <div class="product__accordion-body t-small">
+          {%- if inci != blank -%}
+            <p><strong class="t-label">Full ingredient list</strong><br>{{ inci }}</p>
+          {%- endif -%}
+          {%- if allergens != blank -%}
+            <p><strong class="t-label">Allergen declaration</strong><br>{{ allergens }}</p>
+          {%- endif -%}
+          {%- if batch_note != blank -%}
+            <p class="t-small">{{ batch_note }}</p>
+          {%- endif -%}
+        </div>
+      </details>
+    {%- endif -%}
+
+    <details class="product__accordion">
+      <summary>How to wear</summary>
+      <div class="product__accordion-body">
+        {% render 'how-to-wear-steps',
+          step_1: section.settings.step_1,
+          step_2: section.settings.step_2,
+          step_3: section.settings.step_3
+        %}
+      </div>
+    </details>
+
+    <details class="product__accordion">
+      <summary>Shipping &amp; returns</summary>
+      <div class="product__accordion-body t-small">
+        {{ section.settings.shipping_summary }}
+      </div>
+    </details>
+  </div>
+
+  {% render 'cross-sell', product: product, counterpart: counterpart %}
+</section>
+
+{% schema %}
+{
+  "name": "Main product",
+  "settings": [
+    {
+      "type": "product",
+      "id": "counterpart_product",
+      "label": "Counterpart product",
+      "info": "The other SKU — shown as \"its counterpart\" below the fold."
+    },
+    {
+      "type": "header",
+      "content": "How to wear"
+    },
+    {
+      "type": "textarea",
+      "id": "step_1",
+      "label": "Step 1",
+      "default": "Apply to pulse points — wrists, neck, the inside of the elbow — where skin warmth carries the scent through the day."
+    },
+    {
+      "type": "textarea",
+      "id": "step_2",
+      "label": "Step 2",
+      "default": "Hold the bottle roughly 15cm from skin and spray lightly; let it settle before dressing."
+    },
+    {
+      "type": "textarea",
+      "id": "step_3",
+      "label": "Step 3",
+      "default": "In heat and humidity, less is more — one or two sprays hold longer than a heavy application."
+    },
+    {
+      "type": "header",
+      "content": "Shipping & returns"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_summary",
+      "label": "Summary",
+      "default": "<p>Delivered nationwide across Pakistan. Cash on delivery available on every order. See our full Shipping &amp; Returns policy for timelines and the returns process.</p>"
+    }
+  ]
+}
+{% endschema %}

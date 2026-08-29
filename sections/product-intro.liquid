@@ -1,0 +1,61 @@
+{%- comment -%}
+  The product introduction: both SKUs, side by side, each staying in its
+  own world's palette regardless of which half of the split the visitor
+  arrived through.
+{%- endcomment -%}
+
+<section class="product-intro">
+  <div class="product-intro__grid">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign product = block.settings.product
+        if product == blank
+          continue
+        endif
+        assign world = product.metafields.lu.world.value | default: 'cream'
+      -%}
+      <a class="product-intro__card" data-world="{{ world }}" href="{{ product.url }}" {{ block.shopify_attributes }}>
+        <span class="product-intro__media fade-in-on-scroll">
+          {{
+            product.featured_image
+            | image_url: width: 900
+            | image_tag: loading: 'lazy', sizes: '(min-width: 780px) 45vw, 92vw', widths: '480,720,900', alt: product.featured_image.alt | default: product.title
+          }}
+        </span>
+        <span class="product-intro__meta">
+          <span class="t-label product-intro__eyebrow">{{ product.metafields.lu.concentration.value | default: 'Eau de Parfum' }}</span>
+          <span class="t-h2 product-intro__name">{{ product.title }}</span>
+          <span class="t-label product-intro__price">{{ product.price | money }}</span>
+        </span>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product introduction",
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product introduction",
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" }
+      ]
+    }
+  ]
+}
+{% endschema %}

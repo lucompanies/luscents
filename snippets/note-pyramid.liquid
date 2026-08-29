@@ -1,0 +1,34 @@
+{%- doc -%}
+  Renders as three labelled tiers, never a bulleted list (§4) — the
+  single most-read element on the PDP.
+  @param product {product}
+{%- enddoc -%}
+{%- liquid
+  assign notes_top = product.metafields.lu.notes_top.value
+  assign notes_heart = product.metafields.lu.notes_heart.value
+  assign notes_base = product.metafields.lu.notes_base.value
+-%}
+<div class="note-pyramid">
+  <p class="t-label note-pyramid__heading">The notes</p>
+
+  <div class="note-pyramid__tier">
+    <span class="t-label note-pyramid__tier-label">Top</span>
+    <span class="t-label note-pyramid__tier-notes">
+      {%- if notes_top.size > 0 -%}{{ notes_top | join: ' &middot; ' }}{%- else -%}Pending manufacturer data{%- endif -%}
+    </span>
+  </div>
+
+  <div class="note-pyramid__tier">
+    <span class="t-label note-pyramid__tier-label">Heart</span>
+    <span class="t-label note-pyramid__tier-notes">
+      {%- if notes_heart.size > 0 -%}{{ notes_heart | join: ' &middot; ' }}{%- else -%}Pending manufacturer data{%- endif -%}
+    </span>
+  </div>
+
+  <div class="note-pyramid__tier">
+    <span class="t-label note-pyramid__tier-label">Base</span>
+    <span class="t-label note-pyramid__tier-notes">
+      {%- if notes_base.size > 0 -%}{{ notes_base | join: ' &middot; ' }}{%- else -%}Pending manufacturer data{%- endif -%}
+    </span>
+  </div>
+</div>
