@@ -239,6 +239,116 @@ a { color: inherit; }
 .world-switch:hover { border-color: var(--ink); }
 
 /* ==========================================================================
+   Site chrome — header & footer
+   ========================================================================== */
+.site-header {
+  background: var(--bg);
+  color: var(--ink);
+  border-bottom: var(--border-hairline) solid var(--border);
+  position: relative;
+  z-index: 10;
+}
+.site-header__inner {
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.site-header__logo { text-decoration: none; color: inherit; line-height: 0; }
+.site-header__wordmark { font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.08em; }
+.site-header__nav {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.site-header__nav a { text-decoration: none; }
+.site-header__nav a:hover { color: var(--gold); }
+.site-header__actions { display: flex; align-items: center; gap: var(--space-2); }
+.site-header__cart { text-decoration: none; }
+
+@media (max-width: 780px) {
+  .site-header__nav { display: none; }
+}
+
+.site-footer {
+  background: var(--surface);
+  color: var(--ink);
+  border-top: var(--border-hairline) solid var(--border);
+}
+.site-footer__inner {
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-3);
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+@media (max-width: 780px) {
+  .site-footer__inner { grid-template-columns: 1fr; }
+}
+.site-footer__signup { display: flex; flex-direction: column; gap: var(--space-2); }
+.site-footer__signup form { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.site-footer__signup input {
+  background: var(--bg);
+  border: var(--border-hairline) solid var(--border);
+  color: var(--ink);
+  padding: 0.65em 0.75em;
+  font-family: var(--font-body);
+  flex: 1 1 12rem;
+}
+.site-footer__signup button {
+  background: var(--ink);
+  color: var(--bg);
+  border: none;
+  padding: 0.65em 1.25em;
+  font-family: var(--font-utility);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+.site-footer__links, .site-footer__social {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.site-footer__links a, .site-footer__social a { text-decoration: none; color: var(--ink-muted); }
+.site-footer__links a:hover, .site-footer__social a:hover { color: var(--gold); }
+.site-footer__copyright {
+  grid-column: 1 / -1;
+  color: var(--ink-muted);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: var(--border-hairline) solid var(--border);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 0.75em 1.25em;
+  z-index: 100;
+}
+.skip-link:focus { left: 0; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
    Homepage — the split (§2, the one place this brief spends boldness)
    ========================================================================== */
 .world-split {
